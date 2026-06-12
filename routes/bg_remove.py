@@ -6,14 +6,15 @@ router = APIRouter()
 
 @router.post("/remove-bg")
 async def remove_bg(request: Request):
-    image_bytes = await request.body()
+    try:
+        image_bytes = await request.body()
 
-    if not image_bytes:
-        raise HTTPException(status_code=400, detail="No image provided")
+        if not image_bytes:
+            raise HTTPException(status_code=400, detail="No image provided")
 
-    output_image = remove_background(image_bytes)
+        output = remove_background(image_bytes)
 
-    return Response(
-        content=output_image,
-        media_type="image/png"
-    )
+        return Response(content=output, media_type="image/png")
+
+    except Exception as e:
+        return HTTPException(status_code=500, detail=str(e))

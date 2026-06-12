@@ -1,13 +1,12 @@
 from fastapi import FastAPI
-from routes import bg_remove
+from routes.bg_remove import router
 
 app = FastAPI(
     title="BG Remove API",
-    version="1.0",
-    
+    version="1.0"
 )
 
-app.include_router(bg_remove.router)
+app.include_router(router)
 
 @app.get("/")
 def root():
