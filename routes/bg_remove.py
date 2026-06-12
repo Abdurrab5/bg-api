@@ -17,4 +17,4 @@ async def remove_bg(request: Request):
         return Response(content=output, media_type="image/png")
 
     except Exception as e:
-        return HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=500, detail=str(e))
