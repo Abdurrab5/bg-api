@@ -1,13 +1,14 @@
-from fastapi import FastAPI
-from routes.bg_remove import router
+import subprocess
+from fastapi import APIRouter
 
-app = FastAPI(
-    title="BG Remove API",
-    version="1.0"
-)
+router = APIRouter()
 
-app.include_router(router)
+@router.get("/packages")
+def packages():
+    result = subprocess.run(
+        ["pip", "list"],
+        capture_output=True,
+        text=True
+    )
 
-@app.get("/")
-def root():
-    return {"status": "BG API running"} 
+    return {"packages": result.stdout}
