@@ -10,4 +10,4 @@ app.include_router(router)
 
 @app.get("/")
 def root():
-    return {"status": "BG API running"}
+    return {"status": "BG API running"} 
