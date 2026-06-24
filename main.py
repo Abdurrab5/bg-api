@@ -3,6 +3,7 @@ from routes.bg_remove import router
 from pathlib import Path
 import shutil
 import urllib.request
+from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent
 
@@ -37,6 +38,14 @@ app = FastAPI(
 
 app.include_router(router)
 
+
+print("=== STARTUP ===")
+print("Python started")
+
+model = Path("models/u2netp.onnx")
+print("Model exists:", model.exists())
+print("Model path:", model.absolute())
 @app.get("/")
 def root():
     return {"status": "BG API running"}
+ 
