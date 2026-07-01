@@ -1,35 +1,5 @@
 from fastapi import FastAPI
 from routes.bg_remove import router
-from pathlib import Path
-import shutil
-import urllib.request
-from pathlib import Path
-
-BASE_DIR = Path(__file__).resolve().parent
-
-MODELS_DIR = BASE_DIR / "models"
-MODEL_SRC = MODELS_DIR / "u2netp.onnx"
-MODEL_DST = Path.home() / ".u2net" / "u2netp.onnx"
-
-MODEL_URL = "https://github.com/danielgatis/rembg/releases/download/v0.0.0/u2netp.onnx"
-
-MODELS_DIR.mkdir(parents=True, exist_ok=True)
-MODEL_DST.parent.mkdir(parents=True, exist_ok=True)
-
-try:
-    if not MODEL_SRC.exists():
-        print("Downloading u2netp.onnx...")
-        urllib.request.urlretrieve(MODEL_URL, MODEL_SRC)
-        print(f"Downloaded: {MODEL_SRC}")
-
-    if not MODEL_DST.exists():
-        print("Copying model to rembg directory...")
-        shutil.copy2(MODEL_SRC, MODEL_DST)
-        print(f"Copied to: {MODEL_DST}")
-
-except Exception as e:
-    print(f"Model setup failed: {e}")
-    raise
 
 app = FastAPI(
     title="BG Remove API",
@@ -38,14 +8,6 @@ app = FastAPI(
 
 app.include_router(router)
 
-
-print("=== STARTUP ===")
-print("Python started")
-
-model = Path("models/u2netp.onnx")
-print("Model exists:", model.exists())
-print("Model path:", model.absolute())
 @app.get("/")
 def root():
     return {"status": "BG API running"}
- 
