@@ -1,16 +1,21 @@
 from rembg import remove, new_session
 from fastapi.concurrency import run_in_threadpool
+import traceback
 
-# Load model once
 session = new_session("u2netp")
 
 async def remove_bg(file):
-    input_image = await file.read()
+    try:
+        input_image = await file.read()
 
-    output = await run_in_threadpool(
-        remove,
-        input_image,
-        session=session
-    )
+        output = await run_in_threadpool(
+            remove,
+            input_image,
+            session=session
+        )
 
-    return output
+        return output
+
+    except Exception:
+        traceback.print_exc()
+        raise
